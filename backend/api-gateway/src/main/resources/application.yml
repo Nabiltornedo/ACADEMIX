@@ -1,0 +1,70 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+      routes:
+        - id: ms-auth
+          uri: lb://ms-auth
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=1
+        - id: ms-student
+          uri: lb://ms-student
+          predicates:
+            - Path=/api/students/**
+          filters:
+            - StripPrefix=1
+        - id: ms-teacher
+          uri: lb://ms-teacher
+          predicates:
+            - Path=/api/teachers/**
+          filters:
+            - StripPrefix=1
+        - id: ms-course
+          uri: lb://ms-course
+          predicates:
+            - Path=/api/courses/**
+          filters:
+            - StripPrefix=1
+        - id: ms-schedule
+          uri: lb://ms-schedule
+          predicates:
+            - Path=/api/schedules/**
+          filters:
+            - StripPrefix=1
+        - id: ms-exam
+          uri: lb://ms-exam
+          predicates:
+            - Path=/api/exams/**
+          filters:
+            - StripPrefix=1
+        - id: ms-admin
+          uri: lb://ms-admin
+          predicates:
+            - Path=/api/admin/**
+          filters:
+            - StripPrefix=1
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
