@@ -28,7 +28,6 @@
 - [Configuration](#-configuration)
 - [Utilisation](#-utilisation)
 - [API Documentation](#-api-documentation)
-- [Screenshots](#-screenshots)
 - [Auteurs](#-auteurs)
 - [Encadrement](#-encadrement)
 - [License](#-license)
@@ -386,22 +385,6 @@ GET    /api/students/attendance/stats/student/{id}    # Statistiques présence
 
 ---
 
-## 📸 Screenshots
-
-### 🏠 Dashboard Admin
-![Dashboard Admin](https://via.placeholder.com/800x400/1e3a5f/ffffff?text=Dashboard+Admin)
-
-### 👨‍🎓 Dashboard Étudiant
-![Dashboard Étudiant](https://via.placeholder.com/800x400/3b82f6/ffffff?text=Dashboard+Etudiant)
-
-### 📊 Gestion des Notes
-![Gestion Notes](https://via.placeholder.com/800x400/22c55e/ffffff?text=Gestion+des+Notes)
-
-### 📅 Emploi du Temps
-![Emploi du Temps](https://via.placeholder.com/800x400/f59e0b/ffffff?text=Emploi+du+Temps)
-
----
-
 ## 👨‍💻 Auteurs
 
 <table>
@@ -448,7 +431,7 @@ GET    /api/students/attendance/stats/student/{id}    # Statistiques présence
 | **Établissement** | École Marocaine des Sciences de l'Ingénieur (EMSI) |
 | **Projet** | Projet de Fin d'Année (PFA) |
 | **Filière** | Génie Informatique |
-| **Année Universitaire** | 2024-2025 |
+| **Année Universitaire** | 2025-2026 |
 
 </div>
 
