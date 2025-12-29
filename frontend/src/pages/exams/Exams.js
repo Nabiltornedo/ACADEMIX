@@ -7,8 +7,7 @@ import { FiPlus, FiEdit2, FiTrash2, FiX } from 'react-icons/fi';
 const Exams = () => {
   const { user } = useAuth();
   const isAdmin = user?.role === 'ADMIN';
-  const isTeacher = user?.role === 'TEACHER';
-  const canManage = isAdmin || isTeacher;
+  const canManage = isAdmin; // Seul ADMIN peut planifier/modifier/supprimer
 
   const [exams, setExams] = useState([]);
   const [courses, setCourses] = useState([]);

@@ -23,4 +23,7 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
     List<Notification> findPendingNotifications(@Param("now") LocalDateTime now);
 
     boolean existsByReferenceIdAndReferenceTypeAndType(Long referenceId, String referenceType, NotificationType type);
+
+    // AJOUTER CETTE LIGNE
+    boolean existsByUserIdAndTitle(Long userId, String title);
 }

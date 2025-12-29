@@ -134,4 +134,32 @@ export const notificationService = {
   delete: (id) => api.delete(`/auth/notifications/${id}`),
 };
 
+// Attendance Service
+export const attendanceService = {
+  getAll: () => api.get('/students/attendance'),
+  generateQRCode: (courseId, courseName) => api.post(`/students/attendance/qr-code/generate?courseId=${courseId}&courseName=${encodeURIComponent(courseName || '')}`),
+  scanQRCode: (data) => api.post('/students/attendance/qr-code/scan', data),
+  markAttendance: (data) => api.post('/students/attendance/mark', data),
+  markBulkAttendance: (data) => api.post('/students/attendance/mark-bulk', data),
+  justifyAbsence: (data) => api.post('/students/attendance/justify', data),
+  getStudentAttendance: (studentId) => api.get(`/students/attendance/student/${studentId}`),
+  getCourseAttendance: (courseId, date) => api.get(`/students/attendance/course/${courseId}?date=${date}`),
+  getStudentStats: (studentId) => api.get(`/students/attendance/stats/student/${studentId}`),
+  getStudentStatsByCourse: (studentId, courseId) => api.get(`/students/attendance/stats/student/${studentId}/course/${courseId}`),
+};
+
+// Grade Service
+export const gradeService = {
+  getAll: () => api.get('/students/grades'),
+  create: (data) => api.post('/students/grades', data),
+  update: (id, data) => api.put(`/students/grades/${id}`, data),
+  delete: (id) => api.delete(`/students/grades/${id}`),
+  getStudentGrades: (studentId) => api.get(`/students/grades/student/${studentId}`),
+  getStudentGradesByCourse: (studentId, courseId) => api.get(`/students/grades/student/${studentId}/course/${courseId}`),
+  getCourseGrades: (courseId) => api.get(`/students/grades/course/${courseId}`),
+  getStudentAverages: (studentId) => api.get(`/students/grades/student/${studentId}/averages`),
+  getCourseAverage: (studentId, courseId) => api.get(`/students/grades/student/${studentId}/course/${courseId}/average`),
+  getSemesterReport: (studentId, semester, academicYear) => api.get(`/students/grades/student/${studentId}/semester/${semester}/report?academicYear=${academicYear}`),
+};
+
 export default api;

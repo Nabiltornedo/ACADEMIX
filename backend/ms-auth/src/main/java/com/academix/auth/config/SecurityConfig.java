@@ -35,9 +35,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)  // Désactivé car géré par CorsFilter
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/register", "/auth/login", "/auth/validate").permitAll()
+                        .requestMatchers("/auth/notifications/**").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/auth/users/**").hasRole("ADMIN")
                         .anyRequest().authenticated()

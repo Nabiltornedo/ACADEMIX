@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { studentService } from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
 import { FiPlus, FiEdit2, FiTrash2, FiX } from 'react-icons/fi';
 
 const Students = () => {
+  const { user } = useAuth();
+  const isAdmin = user?.role === 'ADMIN';
+  const canManage = isAdmin; // Seul ADMIN peut ajouter/modifier/supprimer
+
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -80,14 +85,26 @@ const Students = () => {
     <div>
       <div className="header">
         <h1 className="page-title">Gestion des Étudiants</h1>
-        <button className="btn btn-primary" onClick={() => openModal()}><FiPlus /> Ajouter un étudiant</button>
+        {canManage && (
+          <button className="btn btn-primary" onClick={() => openModal()}>
+            <FiPlus /> Ajouter un étudiant
+          </button>
+        )}
       </div>
 
       <div className="card">
         <div className="table-container">
           <table className="table">
             <thead>
-              <tr><th>Code</th><th>Nom complet</th><th>Email</th><th>Téléphone</th><th>Semestre</th><th>Statut</th><th>Actions</th></tr>
+              <tr>
+                <th>Code</th>
+                <th>Nom complet</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Semestre</th>
+                <th>Statut</th>
+                {canManage && <th>Actions</th>}
+              </tr>
             </thead>
             <tbody>
               {students.length > 0 ? students.map((student) => (
@@ -97,23 +114,37 @@ const Students = () => {
                   <td>{student.email}</td>
                   <td>{student.phone || '-'}</td>
                   <td>S{student.currentSemester || 1}</td>
-                  <td><span className={`badge badge-${student.status === 'ACTIVE' ? 'success' : 'warning'}`}>{student.status}</span></td>
                   <td>
-                    <div className="actions">
-                      <button className="btn btn-secondary btn-sm" onClick={() => openModal(student)}><FiEdit2 /></button>
-                      <button className="btn btn-danger btn-sm" onClick={() => handleDelete(student.id)}><FiTrash2 /></button>
-                    </div>
+                    <span className={`badge badge-${student.status === 'ACTIVE' ? 'success' : 'warning'}`}>
+                      {student.status}
+                    </span>
                   </td>
+                  {canManage && (
+                    <td>
+                      <div className="actions">
+                        <button className="btn btn-secondary btn-sm" onClick={() => openModal(student)}>
+                          <FiEdit2 />
+                        </button>
+                        <button className="btn btn-danger btn-sm" onClick={() => handleDelete(student.id)}>
+                          <FiTrash2 />
+                        </button>
+                      </div>
+                    </td>
+                  )}
                 </tr>
               )) : (
-                <tr><td colSpan="7" style={{ textAlign: 'center', color: '#64748b' }}>Aucun étudiant trouvé</td></tr>
+                <tr>
+                  <td colSpan={canManage ? 7 : 6} style={{ textAlign: 'center', color: '#64748b' }}>
+                    Aucun étudiant trouvé
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>
         </div>
       </div>
 
-      {showModal && (
+      {showModal && canManage && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">

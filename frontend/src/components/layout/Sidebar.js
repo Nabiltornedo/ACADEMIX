@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { 
   FiHome, FiUsers, FiBook, FiCalendar, FiFileText, 
-  FiSettings, FiLogOut, FiUser, FiBookOpen 
+  FiSettings, FiLogOut, FiUser, FiBookOpen, FiUserCheck, FiAward 
 } from 'react-icons/fi';
 import Notifications from '../Notifications';
 
@@ -23,6 +23,8 @@ const Sidebar = () => {
     { path: '/courses', icon: <FiBook />, label: 'Cours', roles: ['ADMIN', 'TEACHER', 'STUDENT'] },
     { path: '/schedules', icon: <FiCalendar />, label: 'Emploi du temps', roles: ['ADMIN', 'TEACHER', 'STUDENT'] },
     { path: '/exams', icon: <FiFileText />, label: 'Examens', roles: ['ADMIN', 'TEACHER', 'STUDENT'] },
+    { path: '/attendance', icon: <FiUserCheck />, label: 'Présences', roles: ['ADMIN', 'TEACHER', 'STUDENT'] },
+    { path: '/grades', icon: <FiAward />, label: 'Notes', roles: ['ADMIN', 'TEACHER', 'STUDENT'] },
     { path: '/admin', icon: <FiSettings />, label: 'Administration', roles: ['ADMIN'] },
   ];
 

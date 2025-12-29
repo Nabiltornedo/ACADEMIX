@@ -10,6 +10,8 @@ import Courses from './pages/courses/Courses';
 import Schedules from './pages/schedules/Schedules';
 import Exams from './pages/exams/Exams';
 import Admin from './pages/admin/Admin';
+import Attendance from './pages/attendance/Attendance';
+import Grades from './pages/grades/Grades';
 
 // Protected Route Component
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
@@ -92,6 +94,20 @@ function App() {
       <Route path="/admin" element={
         <ProtectedRoute allowedRoles={['ADMIN']}>
           <MainLayout><Admin /></MainLayout>
+        </ProtectedRoute>
+      } />
+
+      {/* CORRIGÉ - Attendance avec MainLayout */}
+      <Route path="/attendance" element={
+        <ProtectedRoute>
+          <MainLayout><Attendance /></MainLayout>
+        </ProtectedRoute>
+      } />
+
+      {/* CORRIGÉ - Grades avec MainLayout */}
+      <Route path="/grades" element={
+        <ProtectedRoute>
+          <MainLayout><Grades /></MainLayout>
         </ProtectedRoute>
       } />
 

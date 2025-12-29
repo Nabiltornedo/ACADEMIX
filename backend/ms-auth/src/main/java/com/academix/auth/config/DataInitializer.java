@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Slf4j
 public class DataInitializer implements CommandLineRunner {
-    
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    
+
     @Override
     public void run(String... args) {
         // Create default admin if not exists
@@ -33,7 +33,7 @@ public class DataInitializer implements CommandLineRunner {
             userRepository.save(admin);
             log.info("Default admin user created: admin / admin123");
         }
-        
+
         // Create default teacher if not exists
         if (!userRepository.existsByUsername("teacher")) {
             User teacher = User.builder()
@@ -48,7 +48,7 @@ public class DataInitializer implements CommandLineRunner {
             userRepository.save(teacher);
             log.info("Default teacher user created: teacher / teacher123");
         }
-        
+
         // Create default student if not exists
         if (!userRepository.existsByUsername("student")) {
             User student = User.builder()
@@ -62,6 +62,35 @@ public class DataInitializer implements CommandLineRunner {
                     .build();
             userRepository.save(student);
             log.info("Default student user created: student / student123");
+        }
+
+        // NOUVEAU : Create Nabil student if not exists
+        if (!userRepository.existsByUsername("nabil")) {
+            User nabil = User.builder()
+                    .username("nabil")
+                    .email("nabil.errais.003@gmail.com")
+                    .password(passwordEncoder.encode("123456"))
+                    .firstName("Nabil")
+                    .lastName("Er-Rais")
+                    .role(Role.STUDENT)
+                    .isActive(true)
+                    .build();
+            userRepository.save(nabil);
+            log.info("Student Nabil created: nabil / 123456");
+        }
+        // Create Adam Morchid as teacher
+        if (!userRepository.existsByUsername("adam")) {
+            User adam = User.builder()
+                    .username("adam")
+                    .email("adam.morchid@gmail.com")
+                    .password(passwordEncoder.encode("123456"))
+                    .firstName("Adam")
+                    .lastName("Morchid")
+                    .role(Role.TEACHER)
+                    .isActive(true)
+                    .build();
+            userRepository.save(adam);
+            log.info("Teacher Adam created: adam / 123456");
         }
     }
 }

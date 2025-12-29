@@ -85,13 +85,6 @@ const Login = () => {
             )}
           </button>
         </form>
-
-        <div style={{ textAlign: 'center', marginTop: '24px', color: '#64748b' }}>
-          <p>Comptes de test :</p>
-          <p style={{ fontSize: '0.85rem' }}>admin / admin123</p>
-          <p style={{ fontSize: '0.85rem' }}>teacher / teacher123</p>
-          <p style={{ fontSize: '0.85rem' }}>student / student123</p>
-        </div>
       </div>
     </div>
   );
