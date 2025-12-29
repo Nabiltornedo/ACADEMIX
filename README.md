@@ -1,247 +1,498 @@
-# ACADEMIX - Système d'Information Universitaire
+# 🎓 ACADEMIX - Système de Gestion Universitaire
 
-## 📋 Description
+<div align="center">
 
-ACADEMIX est un système d'information modulaire pour la gestion d'un établissement universitaire, basé sur une architecture microservices.
+![ACADEMIX Logo](https://img.shields.io/badge/ACADEMIX-University%20Management-1e3a5f?style=for-the-badge&logo=graduation-cap&logoColor=white)
+
+[![Java](https://img.shields.io/badge/Java-17-orange?style=flat-square&logo=java)](https://www.oracle.com/java/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen?style=flat-square&logo=spring)](https://spring.io/projects/spring-boot)
+[![React](https://img.shields.io/badge/React-18-blue?style=flat-square&logo=react)](https://reactjs.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14-336791?style=flat-square&logo=postgresql)](https://www.postgresql.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
+
+**Un système complet de gestion universitaire basé sur une architecture microservices**
+
+[Fonctionnalités](#-fonctionnalités) • [Installation](#-installation) • [Technologies](#-technologies) • [Auteurs](#-auteurs)
+
+</div>
+
+---
+
+## 📋 Table des matières
+
+- [À propos](#-à-propos)
+- [Fonctionnalités](#-fonctionnalités)
+- [Architecture](#-architecture)
+- [Technologies](#-technologies)
+- [Installation](#-installation)
+- [Configuration](#-configuration)
+- [Utilisation](#-utilisation)
+- [API Documentation](#-api-documentation)
+- [Screenshots](#-screenshots)
+- [Auteurs](#-auteurs)
+- [Encadrement](#-encadrement)
+- [License](#-license)
+
+---
+
+## 📖 À propos
+
+**ACADEMIX** est une application web complète de gestion universitaire développée dans le cadre du projet de fin d'année (PFA) à l'École Marocaine des Sciences de l'Ingénieur (EMSI). 
+
+Le système permet de gérer efficacement tous les aspects d'un établissement universitaire : étudiants, enseignants, cours, examens, emplois du temps, présences et notes.
+
+### 🎯 Objectifs du projet
+
+- Moderniser la gestion administrative universitaire
+- Automatiser les processus de suivi des étudiants
+- Fournir des tableaux de bord analytiques en temps réel
+- Assurer une architecture scalable et maintenable
+
+---
+
+## ✨ Fonctionnalités
+
+### 🔐 Authentification & Sécurité
+- Authentification JWT sécurisée
+- Gestion des rôles (Admin, Enseignant, Étudiant)
+- Protection des routes par rôle
+- Session management
+
+### 👥 Gestion des Utilisateurs
+- **Étudiants** : Inscription, profil, historique académique
+- **Enseignants** : Gestion des profils, spécialisations
+- **Administrateurs** : Contrôle total du système
+
+### 📚 Gestion Académique
+- **Cours** : Création, modification, attribution aux enseignants
+- **Examens** : Planification, types (Contrôle, Final, Quiz, TP)
+- **Emploi du temps** : Gestion des créneaux horaires
+
+### ✅ Suivi des Étudiants
+- **Présences** : Marquage manuel ou par QR Code
+- **Notes** : Saisie, calcul des moyennes, mentions
+- **Bulletins** : Génération des relevés de notes par semestre
+
+### 🔔 Notifications
+- Rappels d'examens (24h et 2h avant)
+- Notifications de cours
+- Alertes système
+
+### 📊 Tableau de Bord
+- Statistiques en temps réel
+- Graphiques interactifs (Chart.js)
+- Progression du semestre
+- Événements à venir
+
+---
 
 ## 🏗️ Architecture
-
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                         Frontend React                          │
-│                        (Port 3000)                              │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                        API Gateway                              │
-│                        (Port 8080)                              │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-        ┌───────────────────────┼───────────────────────┐
-        ▼                       ▼                       ▼
-┌───────────────┐     ┌───────────────┐     ┌───────────────┐
-│   MS-Auth     │     │  MS-Student   │     │  MS-Teacher   │
-│   (8081)      │     │    (8082)     │     │    (8083)     │
-└───────────────┘     └───────────────┘     └───────────────┘
-        │                       │                       │
-        ▼                       ▼                       ▼
-┌───────────────┐     ┌───────────────┐     ┌───────────────┐
-│  MS-Course    │     │  MS-Schedule  │     │   MS-Exam     │
-│   (8084)      │     │    (8085)     │     │    (8086)     │
-└───────────────┘     └───────────────┘     └───────────────┘
-                                │
-                                ▼
-                      ┌───────────────┐
-                      │   MS-Admin    │
-                      │    (8087)     │
-                      └───────────────┘
-                                │
-                                ▼
-                      ┌───────────────┐
-                      │   Eureka      │
-                      │   Discovery   │
-                      │    (8761)     │
-                      └───────────────┘
+ACADEMIX/
+├── 📁 backend/
+│   ├── 📁 discovery-server/     # Eureka Server (Port 8761)
+│   ├── 📁 api-gateway/          # API Gateway (Port 8080)
+│   ├── 📁 ms-auth/              # Service Authentification (Port 8081)
+│   ├── 📁 ms-student/           # Service Étudiants (Port 8082)
+│   ├── 📁 ms-teacher/           # Service Enseignants (Port 8083)
+│   ├── 📁 ms-course/            # Service Cours (Port 8084)
+│   ├── 📁 ms-exam/              # Service Examens (Port 8085)
+│   ├── 📁 ms-schedule/          # Service Emploi du temps (Port 8086)
+│   └── 📁 ms-admin/             # Service Administration (Port 8087)
+│
+├── 📁 frontend/                  # Application React (Port 3000)
+│   ├── 📁 src/
+│   │   ├── 📁 components/       # Composants réutilisables
+│   │   ├── 📁 pages/            # Pages de l'application
+│   │   ├── 📁 context/          # Context API (Auth)
+│   │   ├── 📁 services/         # Services API
+│   │   └── 📁 styles/           # Fichiers CSS
+│   └── 📄 package.json
+│
+├── 📁 database/                  # Scripts SQL
+├── 📄 .gitignore
+└── 📄 README.md
 ```
 
-## 📦 Microservices
+### 🔄 Diagramme d'Architecture
+```
+                                    ┌─────────────────┐
+                                    │   Frontend      │
+                                    │   React :3000   │
+                                    └────────┬────────┘
+                                             │
+                                             ▼
+                                    ┌─────────────────┐
+                                    │   API Gateway   │
+                                    │     :8080       │
+                                    └────────┬────────┘
+                                             │
+                    ┌────────────────────────┼────────────────────────┐
+                    │                        │                        │
+                    ▼                        ▼                        ▼
+           ┌──────────────┐        ┌──────────────┐        ┌──────────────┐
+           │   ms-auth    │        │  ms-student  │        │  ms-teacher  │
+           │    :8081     │        │    :8082     │        │    :8083     │
+           └──────────────┘        └──────────────┘        └──────────────┘
+                    │                        │                        │
+                    ▼                        ▼                        ▼
+           ┌──────────────┐        ┌──────────────┐        ┌──────────────┐
+           │  PostgreSQL  │        │  PostgreSQL  │        │  PostgreSQL  │
+           │ academix_auth│        │academix_student│      │academix_teacher│
+           └──────────────┘        └──────────────┘        └──────────────┘
+```
 
-| Service | Port | Description |
-|---------|------|-------------|
-| Discovery Server | 8761 | Service de découverte Eureka |
-| API Gateway | 8080 | Passerelle API (routage, CORS) |
-| MS-Auth | 8081 | Authentification et gestion des utilisateurs |
-| MS-Student | 8082 | Gestion des étudiants et notes |
-| MS-Teacher | 8083 | Gestion des enseignants et disponibilités |
-| MS-Course | 8084 | Gestion des cours, programmes et inscriptions |
-| MS-Schedule | 8085 | Planification et gestion des salles |
-| MS-Exam | 8086 | Organisation des examens et résultats |
-| MS-Admin | 8087 | Administration et paramètres système |
+---
 
-## 🛠️ Technologies
+## 🚀 Technologies
 
 ### Backend
-- Java 17
-- Spring Boot 3.2.0
-- Spring Cloud (Eureka, Gateway)
-- Spring Security + JWT
-- Spring Data JPA
-- PostgreSQL
+
+| Technologie | Version | Description |
+|-------------|---------|-------------|
+| Java | 17 | Langage de programmation |
+| Spring Boot | 3.2.x | Framework backend |
+| Spring Cloud | 2023.x | Microservices (Eureka, Gateway) |
+| Spring Security | 6.x | Sécurité & JWT |
+| Spring Data JPA | 3.x | ORM & Persistance |
+| PostgreSQL | 14+ | Base de données |
+| Maven | 3.8+ | Gestion des dépendances |
+| Lombok | 1.18.x | Réduction du boilerplate |
 
 ### Frontend
-- React 18
-- React Router 6
-- Axios
-- React Toastify
-- React Icons
 
-## 🚀 Installation et Démarrage
+| Technologie | Version | Description |
+|-------------|---------|-------------|
+| React | 18.x | Bibliothèque UI |
+| React Router | 6.x | Routing |
+| Axios | 1.x | Client HTTP |
+| Chart.js | 4.x | Graphiques |
+| React Toastify | 9.x | Notifications |
+| React Icons | 4.x | Icônes |
+
+### Outils & DevOps
+
+| Outil | Usage |
+|-------|-------|
+| Git | Versioning |
+| GitHub | Repository |
+| IntelliJ IDEA | IDE Backend |
+| VS Code | IDE Frontend |
+| Postman | Test API |
+| pgAdmin | Administration BDD |
+
+---
+
+## 💻 Installation
 
 ### Prérequis
-- Java 17+
-- Node.js 18+
-- PostgreSQL 14+
-- Maven 3.8+
 
-### 1. Configuration de la Base de Données
+Assurez-vous d'avoir installé :
 
+- ☕ **Java JDK 17+** - [Télécharger](https://adoptium.net/)
+- 📦 **Node.js 18+** - [Télécharger](https://nodejs.org/)
+- 🐘 **PostgreSQL 14+** - [Télécharger](https://www.postgresql.org/download/)
+- 🔧 **Maven 3.8+** - [Télécharger](https://maven.apache.org/download.cgi)
+- 🐙 **Git** - [Télécharger](https://git-scm.com/)
+
+### 1️⃣ Cloner le repository
 ```bash
-# Connectez-vous à PostgreSQL
-psql -U postgres
-
-# Exécutez le script d'initialisation
-\i database/init.sql
+git clone https://github.com/Nabiltornedo/ACADEMIX.git
+cd ACADEMIX
 ```
 
-Ou créez manuellement les bases de données :
+### 2️⃣ Configuration de la base de données
+
+Connectez-vous à PostgreSQL et créez les bases de données :
 ```sql
+-- Créer les bases de données
 CREATE DATABASE academix_auth;
 CREATE DATABASE academix_student;
 CREATE DATABASE academix_teacher;
 CREATE DATABASE academix_course;
-CREATE DATABASE academix_schedule;
 CREATE DATABASE academix_exam;
+CREATE DATABASE academix_schedule;
 CREATE DATABASE academix_admin;
 ```
 
-### 2. Démarrage du Backend
+### 3️⃣ Configuration des microservices
 
-**Important**: Démarrez les services dans cet ordre !
+Chaque microservice a son fichier `application.yml` dans `src/main/resources/`. Modifiez les informations de connexion PostgreSQL si nécessaire :
+```yaml
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/academix_[service]
+    username: postgres
+    password: votre_mot_de_passe
+```
 
+### 4️⃣ Démarrer les services Backend
+
+**Important** : Démarrez les services dans cet ordre !
 ```bash
-# 1. Discovery Server (obligatoire en premier)
+# Terminal 1 - Discovery Server (Eureka)
 cd backend/discovery-server
 mvn spring-boot:run
 
-# 2. API Gateway
+# Terminal 2 - API Gateway
 cd backend/api-gateway
 mvn spring-boot:run
 
-# 3. Services métier (dans n'importe quel ordre)
+# Terminal 3 - Auth Service
 cd backend/ms-auth
 mvn spring-boot:run
 
+# Terminal 4 - Student Service
 cd backend/ms-student
 mvn spring-boot:run
 
+# Terminal 5 - Teacher Service
 cd backend/ms-teacher
 mvn spring-boot:run
 
+# Terminal 6 - Course Service
 cd backend/ms-course
 mvn spring-boot:run
 
-cd backend/ms-schedule
-mvn spring-boot:run
-
+# Terminal 7 - Exam Service
 cd backend/ms-exam
 mvn spring-boot:run
 
+# Terminal 8 - Schedule Service
+cd backend/ms-schedule
+mvn spring-boot:run
+
+# Terminal 9 - Admin Service
 cd backend/ms-admin
 mvn spring-boot:run
 ```
 
-### 3. Démarrage du Frontend
-
+### 5️⃣ Démarrer le Frontend
 ```bash
 cd frontend
 npm install
 npm start
 ```
 
-L'application sera accessible sur http://localhost:3000
+### 6️⃣ Accéder à l'application
 
-## 👤 Comptes par Défaut
+| Service | URL |
+|---------|-----|
+| 🌐 **Application** | http://localhost:3000 |
+| 🔍 **Eureka Dashboard** | http://localhost:8761 |
+| 🚪 **API Gateway** | http://localhost:8080 |
 
-| Rôle | Username | Password |
-|------|----------|----------|
-| Admin | admin | admin123 |
-| Teacher | teacher | teacher123 |
-| Student | student | student123 |
+---
 
-## 📡 Endpoints API
+## ⚙️ Configuration
 
-### Authentication (MS-Auth)
-- `POST /api/auth/login` - Connexion
-- `POST /api/auth/register` - Inscription
-- `GET /api/auth/users` - Liste des utilisateurs (Admin)
+### Variables d'environnement
 
-### Students (MS-Student)
-- `GET /api/students` - Liste des étudiants
-- `POST /api/students` - Créer un étudiant
-- `PUT /api/students/{id}` - Modifier un étudiant
-- `DELETE /api/students/{id}` - Supprimer un étudiant
-- `GET /api/students/grades/student/{id}` - Notes d'un étudiant
-
-### Teachers (MS-Teacher)
-- `GET /api/teachers` - Liste des enseignants
-- `POST /api/teachers` - Créer un enseignant
-- `PUT /api/teachers/{id}` - Modifier un enseignant
-- `DELETE /api/teachers/{id}` - Supprimer un enseignant
-
-### Courses (MS-Course)
-- `GET /api/courses` - Liste des cours
-- `POST /api/courses` - Créer un cours
-- `GET /api/courses/programs` - Liste des programmes
-- `POST /api/courses/enrollments` - Inscrire un étudiant
-
-### Schedules (MS-Schedule)
-- `GET /api/schedules` - Emploi du temps
-- `POST /api/schedules` - Créer un créneau
-- `GET /api/schedules/rooms` - Liste des salles
-
-### Exams (MS-Exam)
-- `GET /api/exams` - Liste des examens
-- `POST /api/exams` - Planifier un examen
-- `POST /api/exams/results` - Soumettre des résultats
-
-## 📊 Monitoring
-
-- **Eureka Dashboard**: http://localhost:8761
-- **Actuator Health**: http://localhost:{port}/actuator/health
-
-## 📁 Structure du Projet
-
-```
-academix/
-├── backend/
-│   ├── discovery-server/    # Eureka Server
-│   ├── api-gateway/         # Spring Cloud Gateway
-│   ├── ms-auth/             # Service d'authentification
-│   ├── ms-student/          # Service étudiant
-│   ├── ms-teacher/          # Service enseignant
-│   ├── ms-course/           # Service cours
-│   ├── ms-schedule/         # Service emploi du temps
-│   ├── ms-exam/             # Service examens
-│   └── ms-admin/            # Service administration
-├── frontend/
-│   ├── src/
-│   │   ├── components/      # Composants React
-│   │   ├── pages/           # Pages de l'application
-│   │   ├── services/        # Services API
-│   │   ├── context/         # Context React (Auth)
-│   │   └── App.js           # Composant principal
-│   └── package.json
-├── database/
-│   └── init.sql             # Script d'initialisation
-└── README.md
+Créez un fichier `.env` dans le dossier `frontend/` :
+```env
+REACT_APP_API_URL=http://localhost:8080/api
 ```
 
-## 🔒 Sécurité
+### Ports des services
 
-- Authentification JWT
-- Protection des routes par rôle (ADMIN, TEACHER, STUDENT)
-- CORS configuré pour le frontend
-- Mots de passe hashés (BCrypt)
+| Service | Port |
+|---------|------|
+| Discovery Server | 8761 |
+| API Gateway | 8080 |
+| ms-auth | 8081 |
+| ms-student | 8082 |
+| ms-teacher | 8083 |
+| ms-course | 8084 |
+| ms-exam | 8085 |
+| ms-schedule | 8086 |
+| ms-admin | 8087 |
+| Frontend | 3000 |
 
-## 📝 Notes
+---
 
-- Chaque microservice a sa propre base de données
-- Les tables sont créées automatiquement au démarrage (JPA ddl-auto: update)
-- Un utilisateur admin est créé automatiquement au premier démarrage
+## 🔑 Utilisation
 
-## 🎓 Projet PFA - EMSI
+### Comptes par défaut
 
-**Auteur**: Nabil  
-**École**: EMSI (École Marocaine des Sciences de l'Ingénieur)  
-**Année**: 2024-2025
+| Rôle | Username | Password | Accès |
+|------|----------|----------|-------|
+| 👑 **Admin** | `admin` | `admin123` | Accès complet |
+| 👨‍🏫 **Enseignant** | `adam` | `123456` | Gestion cours, notes, présences |
+| 👨‍🎓 **Étudiant** | `nabil` | `123456` | Consultation personnelle |
+
+### Permissions par rôle
+
+| Fonctionnalité | Admin | Enseignant | Étudiant |
+|----------------|:-----:|:----------:|:--------:|
+| Gérer les étudiants | ✅ | 👁️ | ❌ |
+| Gérer les enseignants | ✅ | ❌ | ❌ |
+| Gérer les cours | ✅ | ✅ | 👁️ |
+| Planifier les examens | ✅ | ❌ | 👁️ |
+| Marquer les présences | ✅ | ✅ | ❌ |
+| Saisir les notes | ✅ | ✅ | ❌ |
+| Voir son bulletin | ✅ | ✅ | ✅ |
+| Administration | ✅ | ❌ | ❌ |
+
+---
+
+## 📡 API Documentation
+
+### Authentification
+```http
+POST /api/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}
+```
+
+### Étudiants
+```http
+GET    /api/students          # Liste des étudiants
+POST   /api/students          # Créer un étudiant
+GET    /api/students/{id}     # Détails d'un étudiant
+PUT    /api/students/{id}     # Modifier un étudiant
+DELETE /api/students/{id}     # Supprimer un étudiant
+```
+
+### Examens
+```http
+GET    /api/exams             # Liste des examens
+POST   /api/exams             # Planifier un examen
+GET    /api/exams/{id}        # Détails d'un examen
+PUT    /api/exams/{id}        # Modifier un examen
+DELETE /api/exams/{id}        # Supprimer un examen
+```
+
+### Notes
+```http
+GET    /api/students/grades                           # Toutes les notes
+POST   /api/students/grades                           # Ajouter une note
+GET    /api/students/grades/student/{id}              # Notes d'un étudiant
+GET    /api/students/grades/student/{id}/averages     # Moyennes d'un étudiant
+GET    /api/students/grades/student/{id}/semester/{s}/report  # Bulletin
+```
+
+### Présences
+```http
+GET    /api/students/attendance                       # Toutes les présences
+POST   /api/students/attendance/mark                  # Marquer présence
+POST   /api/students/attendance/qr-code/generate      # Générer QR Code
+GET    /api/students/attendance/student/{id}          # Présences d'un étudiant
+GET    /api/students/attendance/stats/student/{id}    # Statistiques présence
+```
+
+---
+
+## 📸 Screenshots
+
+### 🏠 Dashboard Admin
+![Dashboard Admin](https://via.placeholder.com/800x400/1e3a5f/ffffff?text=Dashboard+Admin)
+
+### 👨‍🎓 Dashboard Étudiant
+![Dashboard Étudiant](https://via.placeholder.com/800x400/3b82f6/ffffff?text=Dashboard+Etudiant)
+
+### 📊 Gestion des Notes
+![Gestion Notes](https://via.placeholder.com/800x400/22c55e/ffffff?text=Gestion+des+Notes)
+
+### 📅 Emploi du Temps
+![Emploi du Temps](https://via.placeholder.com/800x400/f59e0b/ffffff?text=Emploi+du+Temps)
+
+---
+
+## 👨‍💻 Auteurs
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Nabiltornedo">
+        <img src="https://github.com/Nabiltornedo.png" width="100px;" alt="Nabil ER-RAIS"/><br />
+        <sub><b>Nabil ER-RAIS</b></sub>
+      </a><br />
+      <a href="mailto:nabil.errais.003@gmail.com">📧 Email</a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/adam-md">
+        <img src="https://github.com/adam-md.png" width="100px;" alt="Adam MORCHID"/><br />
+        <sub><b>Adam MORCHID</b></sub>
+      </a><br />
+      <a href="https://github.com/adam-md">🐙 GitHub</a>
+    </td>
+  </tr>
+</table>
+
+---
+
+## 👨‍🏫 Encadrement
+
+<div align="center">
+
+**Projet encadré par**
+
+### Mr. JAADOUNI
+
+*Professeur à l'École Marocaine des Sciences de l'Ingénieur (EMSI)*
+
+</div>
+
+---
+
+## 🎓 Contexte Académique
+
+<div align="center">
+
+| | |
+|---|---|
+| **Établissement** | École Marocaine des Sciences de l'Ingénieur (EMSI) |
+| **Projet** | Projet de Fin d'Année (PFA) |
+| **Filière** | Génie Informatique |
+| **Année Universitaire** | 2024-2025 |
+
+</div>
+
+---
+
+## 🤝 Contribution
+
+Les contributions sont les bienvenues ! Pour contribuer :
+
+1. 🍴 Forkez le projet
+2. 🌿 Créez une branche (`git checkout -b feature/AmazingFeature`)
+3. 💾 Committez vos changements (`git commit -m 'Add AmazingFeature'`)
+4. 📤 Pushez la branche (`git push origin feature/AmazingFeature`)
+5. 🔃 Ouvrez une Pull Request
+
+---
+
+## 📄 License
+
+Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+```
+MIT License
+
+Copyright (c) 2025 Nabil ER-RAIS & Adam MORCHID
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+```
+
+---
+
+<div align="center">
+
+**⭐ Si ce projet vous a été utile, n'hésitez pas à lui donner une étoile !**
+
+Made with ❤️ by [Nabil ER-RAIS](https://github.com/Nabiltornedo) & [Adam MORCHID](https://github.com/adam-md)
+
+**EMSI - 2025/2026**
+
+</div>
